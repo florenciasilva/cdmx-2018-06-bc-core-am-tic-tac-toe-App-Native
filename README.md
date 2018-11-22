@@ -14,7 +14,7 @@ Una vez instaladas, puedes correr ```expo start``` y veras las instrucciones y o
 
 # Diseño
 
-Puedes ver el diseño completo en 
+Puedes ver el diseño completo en [Marvel](https://marvelapp.com/a634bc4)
 
 ## Paleta de Colores
 
