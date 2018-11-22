@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, TouchableOpacity,Image} from 'react-native';
+import {View, Text, TouchableOpacity,Image, Alert} from 'react-native';
 import styles from './Style';
 import { createStackNavigator } from 'react-navigation';
 
@@ -14,7 +14,10 @@ export default class Board extends Component {
         [0, 0, 0],
         [0, 0, 0]
       ],
-      player : 1
+      player : 1,
+      xWins : 0,
+      oWins : 0,
+      ties : 0
     }
   }
 
@@ -32,6 +35,35 @@ export default class Board extends Component {
     })
   }
 
+  winner = () => {
+    let sum;
+    let arrGame = this.state.gameState;
+    const tiles = 3;
+    // Rows
+    for(let i = 0; i < tiles; i++) {
+      sum = arrGame[i][0] + arrGame[i][1] + arrGame[i][2];      if ( sum === 3) {return 1;}
+      else if (sum === -3) {return -1;}
+    }
+
+    // Cols
+     for(let i = 0; i < tiles; i++) {
+      sum = arrGame[0][i] + arrGame[1][i] + arrGame[2][i];      if ( sum === 3) {return 1;}
+      else if (sum === -3) {return -1;}
+    }
+
+    // Diagonal
+    sum = arrGame[0][0] + arrGame[1][1] + arrGame[2][2];
+    if ( sum === 3) {return 1;}
+      else if (sum === -3) {return -1;} 
+    
+    sum = arrGame[2][0] + arrGame[1][1] + arrGame[0][2];
+    if ( sum === 3) {return 1;}
+      else if (sum === -3) {return -1;} 
+
+    // Tie
+
+    return 0;
+  }
 
   _onPressSquare = (row, col) => {
     let value = this.state.gameState[row][col];
@@ -43,16 +75,31 @@ export default class Board extends Component {
 
   let switchPlayer = (currentPlayer === 1) ? -1 : 1;
   this.setState({player : switchPlayer})
+
+  let winner = this.winner()
+  if (winner === 1) {
+    Alert.alert("X Won")
+    this.setState({xWins: this.state.xWins + 1})
+    this.startGame();
+  } else if (winner === -1) {
+      this.setState({oWins: this.state.oWins + 1})
+      Alert.alert("O Won")
+      this.startGame();
+    }
   }
 
   showXorO = (row, col) => {
     let value = this.state.gameState[row][col];
     switch(value) {
-      case 1: return <Image source = {require('../assets/tileX.png')} />;
-      case -1: return <Image source= {require('../assets/tileO.png')} />;
+      case 1: return <Image source={{uri:'https://i.imgur.com/TrCcRUp.png'}}
+      style={{width: 65, height: 65}} />;
+      case -1: return <Image source={{uri:'https://i.imgur.com/j46NZWM.png'}}
+      style={{width: 65, height: 65}} />;
       default: return <View/>
     }
   }
+
+
 
   render()  {
     return (
@@ -60,6 +107,7 @@ export default class Board extends Component {
           flex: 1,
           justifyContent: 'center',
           alignItems: 'center',
+          
         }}>
           <View style={{
             flexDirection: 'row',
@@ -108,6 +156,25 @@ export default class Board extends Component {
                   </TouchableOpacity>
             </View>
           </View>
+          <View style={{
+        flex: -1,
+        flexDirection: 'row',
+        marginTop: 30
+      }}>
+        <View style={{width: 35, height: 35, backgroundColor: 'white', alignItems:'center'}}>
+         <Image source={{uri:'https://i.imgur.com/QwTcqWy.png'}}
+      style={{width: 35, height: 35}} />
+        <Text>{this.state.xWins}</Text>
+        </View>
+        <View style={{width: 35, height: 35, backgroundColor: 'white', marginLeft: 150, alignItems:'center'}}>
+        <Image source={{uri:'https://i.imgur.com/A9pGSU1.png'}}
+      style={{width: 35, height: 35}} />
+      <Text>{this.state.oWins}</Text>
+        </View>        
+      </View>
+  <TouchableOpacity>
+    <Text>Restart</Text>
+  </TouchableOpacity>
         </View>
         )
       }
