@@ -17,7 +17,6 @@ export default class Board extends Component {
       player : 1,
       xWins : 0,
       oWins : 0,
-      ties : 0
     }
   }
 
@@ -164,18 +163,23 @@ export default class Board extends Component {
         <View style={{width: 35, height: 35, backgroundColor: 'white', alignItems:'center'}}>
          <Image source={{uri:'https://i.imgur.com/QwTcqWy.png'}}
       style={{width: 35, height: 35}} />
+      <Text style={{letterSpacing: 1, fontSize: 12}}>wins</Text>
         <Text>{this.state.xWins}</Text>
         </View>
         <View style={{width: 35, height: 35, backgroundColor: 'white', marginLeft: 150, alignItems:'center'}}>
         <Image source={{uri:'https://i.imgur.com/A9pGSU1.png'}}
       style={{width: 35, height: 35}} />
+      <Text style={{letterSpacing: 1, fontSize: 12}}>wins</Text>
       <Text>{this.state.oWins}</Text>
         </View>        
       </View>
-  <TouchableOpacity>
+      <View style={[styles.play, {marginTop:50}]}>
+  <TouchableOpacity onPress={() => this.startGame()}>
     <Text>Restart</Text>
   </TouchableOpacity>
+  </View>
         </View>
+        
         )
       }
     }
