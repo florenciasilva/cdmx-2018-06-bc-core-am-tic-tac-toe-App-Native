@@ -1,6 +1,6 @@
 # XO - Tic Tac Toe Game
 
-Juego Tic Tac Toe/Gato para Android/iOS.
+Juego Tic Tac Toe/Gato para Android
 
 ## Herramientas
 
